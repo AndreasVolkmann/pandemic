@@ -1,0 +1,9 @@
+---
+projectName: "Pandemic"
+dependencies:
+- "https://github.com/wurstscript/wurstStdlib2"
+buildMapData:
+  name: "Pandemic"
+  fileName: "DefaultFileName"
+  author: "DefaultAuthor"
+  playerCount: 1
