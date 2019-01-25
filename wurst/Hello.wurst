@@ -1,11 +1,43 @@
 package Hello
 
-/* Hello and welcome to Wurst!
-This is just a demo package. 
-You can modify it to tests things out 
-and then later delete it and create your own, new packages.
-Enjoy WurstScript? Consider starring our repo https://github.com/wurstscript/WurstScript */ 
+import ConflagrationObjects
+
+let user = players[0]
+let computer = players[1]	
+let neutral = players[PLAYER_NEUTRAL_PASSIVE]
+
+class City
+	string name
+	vec2 loc
+
+	construct(string name, real x, real  y)
+		this.name = name
+		this.loc = vec2(x, y)
+
+	function build() returns unit
+		let u =  createUnit(user, UnitIds.circleofpower, loc, angle(90))
+		u.setName(name)
+		CreateTextTagLocBJ(name, u.getLoc(), 50, 25, 100, 0, 0, 0)
+		return u
+		
+
+function createCities()
+	City array list = [
+		new City("Shenzhen", 500, 500),
+		new City("London", -500, 0)
+	]
+	for City c in list
+		c.build()
+	
+
 init
 	Log.info("some information")
-	print("Hello World")
-	Log.error("OH NO ERROR")
+	
+	let u = GetUnitsOfPlayerAll(user).next()
+	u.addAbility(SPELL_ID)
+
+	createCities()
+	
+	FogEnableOff()
+	FogMaskEnableOff()
+
