@@ -1,0 +1,32 @@
+package City
+
+import ConflagrationObjects
+
+let user = players[1]
+
+public class City
+	string name
+	vec2 loc
+
+	construct(string name, real x, real  y)
+		this.name = name
+		this.loc = vec2(x, y)
+
+	function build() returns unit
+		let u =  createUnit(user, UnitIds.circleofpower, loc, angle(90))
+		u.setName(name)
+		CreateTextTagLocBJ(name, u.getLoc(), 50, 25, 100, 0, 0, 0)
+		u.addAbility(SPELL_ID)
+		return u
+
+public function createCities()
+	
+	City array list = [
+		new City("Shenzhen", 500, 500),
+		new City("London", -500, 0)
+	]
+	for i = 0 to 1
+		let c = list[i]
+		c.build()
+	
+	

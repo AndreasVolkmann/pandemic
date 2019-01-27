@@ -1,0 +1,10 @@
+package System
+
+
+let playerIndex = 0
+let currentPlayer = players[playerIndex]
+
+public function start()
+    Log.info("It is player " + playerIndex.toString() + " turn")
+
+
