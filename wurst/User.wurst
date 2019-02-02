@@ -1,0 +1,12 @@
+package User
+import City
+
+public class User
+    player p
+    string name
+    City currentLocation 
+
+    construct(player p)
+        this.p = p
+        name = p.getName()
+        currentLocation = cities.get(0) // TODO make random or the like

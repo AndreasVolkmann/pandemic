@@ -1,10 +1,16 @@
 package System
+import User
+import LinkedList
 
-
-let playerIndex = 0
-let currentPlayer = players[playerIndex]
+let users = new LinkedList<User>()
 
 public function start()
-    Log.info("It is player " + playerIndex.toString() + " turn")
+    let u = new User(players[0])
+    users.add(u)
 
+    users.forEach(u -> startTurn(u))
+    
 
+function startTurn(User u)
+    Log.info("It is " + u.name + "'s turn")
+    

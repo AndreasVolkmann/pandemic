@@ -1,16 +1,21 @@
 package City
 
 import ConflagrationObjects
+import LinkedList
 
 let user = players[1]
+constant scaleFactor = 100
+public let cities = new LinkedList<City>()
 
 public class City
 	string name
 	vec2 loc
+	LinkedList<City> connections = new LinkedList<City>()
 
 	construct(string name, real x, real  y)
 		this.name = name
-		this.loc = vec2(x, y)
+		this.loc = vec2(x * scaleFactor, y * scaleFactor)
+		cities.add(this)
 
 	function build() returns unit
 		let u =  createUnit(user, UnitIds.circleofpower, loc, angle(90))
@@ -19,14 +24,35 @@ public class City
 		u.addAbility(SPELL_ID)
 		return u
 
+	function link(vararg City other)
+		for c in other
+			connections.add(c)
+			c.connections.add(this)
+			buildConnection(this, c)
+
+let shenzhen = new City("Shenzhen", 20, 5)
+let london = new City("London", -5, 5)
+let paris = new City("Paris", -1, -1)
+let madrid = new City("Madrid", -5.5, -7)
+let newYork = new City("New York", -20, 1)
+
 public function createCities()
-	
-	City array list = [
-		new City("Shenzhen", 500, 500),
-		new City("London", -500, 0)
-	]
-	for i = 0 to 1
-		let c = list[i]
+	for c in cities
 		c.build()
+	linkCities()
 	
-	
+function linkCities()
+	london.link(paris, madrid, newYork)
+	paris.link(madrid)
+	madrid.link(newYork)
+
+function buildConnection(City a, City b)
+	let distance = a.loc.distanceTo(b.loc)
+	let frequency = 3.0
+	let actualFrequency = frequency * scaleFactor
+	let amount = (distance / actualFrequency).toInt()
+	for i = 1 to max(amount - 1, 1)
+		let next = a.loc.moveTowards(b.loc, i * actualFrequency)
+		createUnit(user, UnitIds.circleofpower, next, angle(0))
+			..setName("From " + a.name + " to " + b.name)
+			..setScale(0.5)

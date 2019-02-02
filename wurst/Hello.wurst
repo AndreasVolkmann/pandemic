@@ -3,6 +3,7 @@ package Hello
 import System
 import City
 import AbilityIds
+import User
 
 let user = players[0]
 let computer = players[1]	
@@ -23,6 +24,12 @@ function initializePlayers()
 	computer
 		..setUserControl(false)
 		..setPlayerAlliance(user, ALLIANCE_SHARED_CONTROL, true)
+	user.setPlayerAlliance(computer, ALLIANCE_PASSIVE, true)
+	initializeCamera(user)
+
+function initializeCamera(player p)
+	p.setCameraField(CAMERA_FIELD_ANGLE_OF_ATTACK, 270, 0)
+	p.setCameraField(CAMERA_FIELD_TARGET_DISTANCE, 3000, 0)
 
 function disableCommonAbilities(unit u)
 	let abilitiesToDisable = [AbilityIds.move, AbilityIds.attack]
