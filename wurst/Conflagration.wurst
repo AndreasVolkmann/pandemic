@@ -5,12 +5,14 @@ import ClosureTimers
 import ClosureForGroups
 import HashMap
 import ClosureEvents
+import System
 
 let buffId = BUFF_OBJ.abilId
 let buffMap = new HashMap<unit, CallbackSingle>()
 init
 	EventListener.onPointCast(SPELL_ID) (caster, tpos) ->
 		flashEffect(SPELL_EFFECT_PATH, tpos)
+		move(caster)
 		doAfter(SPELL_EFFECT_DURATION) ->
 			forUnitsInRange(tpos, SPELL_RADIUS) u ->
 				if u.hasAbility(buffId)

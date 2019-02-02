@@ -3,29 +3,31 @@ package Hello
 import System
 import City
 import AbilityIds
-import User
-
-let user = players[0]
-let computer = players[1]	
-let neutral = players[PLAYER_NEUTRAL_PASSIVE]
+import LinkedList
 
 init
 	Log.info("Welcome to Pandemic")
-	initializePlayers()
-
-	let u = GetUnitsOfPlayerAll(user).next()
-	disableCommonAbilities(u)
 	createCities()
 	FogEnableOff()
 	FogMaskEnableOff()
-	start()
+	let activePlayers = initializePlayers()
+	start(activePlayers)
 
-function initializePlayers()
+function initializePlayers() returns LinkedList<player>
+	let list = new LinkedList<player>()
+		..add(players[0]) // TODO add all other players
+		..forEach(p -> initPlayer(p))
+	return list 
+
+function initPlayer(player p)
+	let computer = players[1]
 	computer
 		..setUserControl(false)
-		..setPlayerAlliance(user, ALLIANCE_SHARED_CONTROL, true)
-	user.setPlayerAlliance(computer, ALLIANCE_PASSIVE, true)
-	initializeCamera(user)
+		..setPlayerAlliance(p, ALLIANCE_SHARED_CONTROL, true)
+	p.setPlayerAlliance(computer, ALLIANCE_PASSIVE, true)
+	initializeCamera(p)
+	let u = GetUnitsOfPlayerAll(p).next()
+	disableCommonAbilities(u)
 
 function initializeCamera(player p)
 	p.setCameraField(CAMERA_FIELD_ANGLE_OF_ATTACK, 270, 0)

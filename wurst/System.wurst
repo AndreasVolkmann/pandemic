@@ -1,16 +1,58 @@
 package System
 import User
 import LinkedList
+import ConflagrationObjects
+import City
 
 let users = new LinkedList<User>()
+LLIterator<User> userIterator
+let turnOrder = new LinkedList<TurnStatus>()..add(TurnStatus.Start, TurnStatus.Move, TurnStatus.End).staticItr()
 
-public function start()
-    let u = new User(players[0])
-    users.add(u)
+public function start(LinkedList<player> players)
+    players
+        .map(p -> new User(p))
+        .forEach(u -> users.add(u))
+    // start the game loop
+    userIterator = users.staticItr()
+    userIterator.next()
+    next()
 
-    users.forEach(u -> startTurn(u))
+function next()
+    let status = turnOrder.next()
+    let user = userIterator.current.elem
+
+    switch status
+        case TurnStatus.Start
+            Log.info("It is " + user.name + "'s turn")
+            next()
+        case TurnStatus.Move
+            Log.info("Time to move")
+            enableMovement(user)
+        case TurnStatus.End
+            Log.info("Turn has ended")
+            if userIterator.hasNext()
+            else 
+                userIterator.reset()
+            userIterator.next()
+            turnOrder.reset()
+            next()
+
+enum TurnStatus
+    Start
+    Move
+    End
     
+function enableMovement(User user)
+    user.currentLocation.connections.forEach( con -> con.cityUnit.addAbility(SPELL_ID))
 
-function startTurn(User u)
-    Log.info("It is " + u.name + "'s turn")
+function disableMovement(User user)
+    user.currentLocation.connections.forEach(cont -> cont.cityUnit.removeAbility(SPELL_ID))
     
+public function move(unit destination)
+    let city = cities.get(destination.getName())
+    Log.info("Moving to " + city.name)
+    let user = userIterator.current.elem
+    disableMovement(user)
+    user.currentLocation = city
+    user.hero.setPos(city.loc)
+    next()

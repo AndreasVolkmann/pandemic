@@ -1,50 +1,51 @@
 package City
 
-import ConflagrationObjects
+import UnitIds
 import LinkedList
+import HashMap
 
 let user = players[1]
 constant scaleFactor = 100
-public let cities = new LinkedList<City>()
+constant cityTextSize = 20.0
+public let cities = new HashMap<string, City>()
 
 public class City
 	string name
 	vec2 loc
 	LinkedList<City> connections = new LinkedList<City>()
+	unit cityUnit
 
 	construct(string name, real x, real  y)
 		this.name = name
-		this.loc = vec2(x * scaleFactor, y * scaleFactor)
-		cities.add(this)
+		this.loc = vec2(x * scaleFactor, y * scaleFactor) 
 
-	function build() returns unit
-		let u =  createUnit(user, UnitIds.circleofpower, loc, angle(90))
-		u.setName(name)
-		CreateTextTagLocBJ(name, u.getLoc(), 50, 25, 100, 0, 0, 0)
-		u.addAbility(SPELL_ID)
-		return u
+	function build()
+		if cityUnit == null
+			let u =  createUnit(user, UnitIds.circleofpower, loc, angle(90))
+			u.setName(name)
+			CreateTextTagLocBJ(name, u.getLoc(), 50, cityTextSize, 100, 100, 100, 0)
+			cityUnit = u
+			cities.put(name, this)
 
 	function link(vararg City other)
+		build()
 		for c in other
+			c.build()
 			connections.add(c)
 			c.connections.add(this)
 			buildConnection(this, c)
 
-let shenzhen = new City("Shenzhen", 20, 5)
+//let shenzhen = new City("Shenzhen", 20, 5)
 let london = new City("London", -5, 5)
 let paris = new City("Paris", -1, -1)
-let madrid = new City("Madrid", -5.5, -7)
+let madrid = new City("Madrid", -6, -7)
 let newYork = new City("New York", -20, 1)
+let saoPaulo = new City("Sao Paulo", -12, -20)
 
 public function createCities()
-	for c in cities
-		c.build()
-	linkCities()
-	
-function linkCities()
 	london.link(paris, madrid, newYork)
 	paris.link(madrid)
-	madrid.link(newYork)
+	madrid.link(newYork, saoPaulo)
 
 function buildConnection(City a, City b)
 	let distance = a.loc.distanceTo(b.loc)
