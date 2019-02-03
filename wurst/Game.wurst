@@ -1,0 +1,28 @@
+package Game
+
+public class Game
+    var turnNumber = 0
+
+    var diseasesCured = 0
+    let maxDiseases = 4
+
+    var numOutbreaks = 0
+    let maxOutBreaks = 8
+
+    var numPlayerCards = 59
+    let minPlayerCards = 0
+
+    construct()
+
+    function check() returns boolean
+        if diseasesCured == maxDiseases
+            endGame(true)
+        else if numOutbreaks == maxOutBreaks or numPlayerCards == minPlayerCards
+            endGame(false)
+        return false
+
+    function endGame(boolean won)
+        if won
+            Log.info("Game won!")
+        else
+            Log.info("Game lost.")

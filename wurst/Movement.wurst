@@ -1,0 +1,17 @@
+package Movement
+import User
+import City
+import ConflagrationObjects
+
+public function enableMovement(User user)
+    user.currentLocation.connections.forEach(con -> con.cityUnit.addAbility(SPELL_ID))
+
+function disableMovement(User user)
+    user.currentLocation.connections.forEach(cont -> cont.cityUnit.removeAbility(SPELL_ID))
+    
+public function move(User user, unit destination)
+    let city = cities.get(destination.getName())
+    Log.info("Moving to " + city.name)
+    disableMovement(user)
+    user.currentLocation = city
+    user.hero.setPos(city.loc)
