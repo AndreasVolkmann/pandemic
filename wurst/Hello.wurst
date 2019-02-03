@@ -35,7 +35,7 @@ function initPlayer(player p)
 
 function initializeCamera(player p)
 	p.setCameraField(CAMERA_FIELD_ANGLE_OF_ATTACK, 270, 0)
-	p.setCameraField(CAMERA_FIELD_TARGET_DISTANCE, 3000, 0)
+	p.setCameraField(CAMERA_FIELD_TARGET_DISTANCE, 4500, 0)
 
 function disableCommonAbilities(unit u)
 	let abilitiesToDisable = [AbilityIds.move, AbilityIds.attack]

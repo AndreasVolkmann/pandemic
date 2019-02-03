@@ -6,7 +6,7 @@ import HashMap
 
 let user = players[1]
 constant scaleFactor = 100
-constant cityTextSize = 20.0
+constant cityTextSize = 18.0
 public let cities = new HashMap<string, City>()
 
 public class City
@@ -14,16 +14,19 @@ public class City
 	vec2 loc
 	LinkedList<City> connections = new LinkedList<City>()
 	unit cityUnit
+	int category
 
-	construct(string name, real x, real  y)
+	construct(string name, real x, real  y, int category)
 		this.name = name
 		this.loc = vec2(x * scaleFactor, y * scaleFactor) 
+		this.category = category
 
 	function build()
 		if cityUnit == null
 			let u =  createUnit(user, UnitIds.circleofpower, loc, angle(90))
-			u.setName(name)
-			CreateTextTagLocBJ(name, u.getLoc(), 50, cityTextSize, 100, 100, 100, 0)
+				..setName(name)
+				..setColor(getColor())
+			CreateTextTagLocBJ(name, u.getLoc(), 40, cityTextSize, 100, 100, 100, 0)
 			cityUnit = u
 			cities.put(name, this)
 
@@ -35,17 +38,44 @@ public class City
 			c.connections.add(this)
 			buildConnection(this, c)
 
+	function getColor() returns playercolor
+		switch category
+			case 0
+				return PLAYER_COLOR_BLUE
+			case 1 
+				return PLAYER_COLOR_YELLOW
+			case 2
+				return PLAYER_COLOR_BLACK_PASSIVE
+			case 3
+				return PLAYER_COLOR_RED
+			default
+				return PLAYER_COLOR_BLUE
+
 //let shenzhen = new City("Shenzhen", 20, 5)
-let london = new City("London", -5, 5)
-let paris = new City("Paris", -1, -1)
-let madrid = new City("Madrid", -6, -7)
-let newYork = new City("New York", -20, 1)
-let saoPaulo = new City("Sao Paulo", -12, -20)
+let london = new City("London", -5, 5, 0)
+let paris = new City("Paris", -1, -1, 0)
+let madrid = new City("Madrid", -6, -7, 0)
+let newYork = new City("New York", -20, 1, 0)
+let montreal = new City("Montreal", -30, 5, 0)
+let saoPaulo = new City("Sao Paulo", -12, -30, 1)
+let bogota = new City("Bogota", -30, -15, 1)
+let miami = new City("Miami", -30, -10, 1)
+let washington = new City("Washington", -25, -8, 0)
+let algiers = new City("Algiers", 5, -10, 2)
+let cairo = new City("Cairo", 15, -12, 2)
+let kartoum = new City("Kartoum", 15, -20, 1)
+let lagos = new City("Lagos", 4, -20, 1)
 
 public function createCities()
 	london.link(paris, madrid, newYork)
 	paris.link(madrid)
 	madrid.link(newYork, saoPaulo)
+	bogota.link(saoPaulo, miami)
+	washington.link(miami, newYork, montreal)
+	montreal.link(newYork)
+	algiers.link(paris, madrid, cairo)
+	kartoum.link(cairo, lagos)
+	lagos.link(saoPaulo)
 
 function buildConnection(City a, City b)
 	let distance = a.loc.distanceTo(b.loc)
@@ -56,4 +86,5 @@ function buildConnection(City a, City b)
 		let next = a.loc.moveTowards(b.loc, i * actualFrequency)
 		createUnit(user, UnitIds.circleofpower, next, angle(0))
 			..setName("From " + a.name + " to " + b.name)
-			..setScale(0.5)
+			..setScale(0.3)
+			..setColor(PLAYER_COLOR_LIGHT_GRAY)
