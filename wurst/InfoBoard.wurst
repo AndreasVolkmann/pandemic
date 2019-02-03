@@ -1,0 +1,42 @@
+package InfoBoard
+import ClosureTimers
+import User
+
+let columns = 2
+let rows = 4
+multiboard b
+
+public function initializeMultiBoard()
+    doAfter(0.25) ->
+        b = CreateMultiboard()
+            ..setRowCount(rows)
+            ..setColumnCount(columns)
+            ..setTitle("Pandemic")
+        updateLabel(0, "Current Player:")
+        updateLabel(1, "Phase:")
+        updateLabel(2, "Turn:")
+        updateValue(2, "0")
+        updateLabel(3, "Infection:")
+        updateValue(3, "0")
+        b.setItemsWidth(0.10)
+        b.setItemsStyle(true, false)
+        b.display(true)
+    //CreateTimer().startPeriodic(0.5, () -> update())
+
+public function updateUser(User user)
+    updateValue(0, user.name)
+
+public function updatePhase(string name)
+    updateValue(1, name)
+
+public function updateTurn(int turn)
+    updateValue(2, turn.toString())
+
+public function updateInfection()
+    // TODO
+
+function updateLabel(int row, string value)
+    b.getItem(row, 0).setValue(value)
+
+function updateValue(int row, string value)
+    b.getItem(row, 1).setValue(value)

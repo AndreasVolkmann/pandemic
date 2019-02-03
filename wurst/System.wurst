@@ -3,10 +3,18 @@ import User
 import LinkedList
 import ConflagrationObjects
 import City
+import InfoBoard
 
+var turnNumber = 0
 let users = new LinkedList<User>()
 LLIterator<User> userIterator
 let turnOrder = new LinkedList<TurnStatus>()..add(TurnStatus.Start, TurnStatus.Move, TurnStatus.End).staticItr()
+
+public function getCurrentUser() returns User
+    return userIterator.current.elem
+
+public function getCurrentPhase() returns TurnStatus
+    return turnOrder.current.elem
 
 public function start(LinkedList<player> players)
     players
@@ -19,22 +27,28 @@ public function start(LinkedList<player> players)
 
 function next()
     let status = turnOrder.next()
-    let user = userIterator.current.elem
+    let user = getCurrentUser()
+    updateUser(user)
 
     switch status
         case TurnStatus.Start
             Log.info("It is " + user.name + "'s turn")
+            updatePhase("Start")
+            updateTurn(turnNumber)
             next()
         case TurnStatus.Move
             Log.info("Time to move")
+            updatePhase("Move")
             enableMovement(user)
         case TurnStatus.End
             Log.info("Turn has ended")
+            updatePhase("End")
             if userIterator.hasNext()
             else 
                 userIterator.reset()
             userIterator.next()
             turnOrder.reset()
+            turnNumber++
             next()
 
 enum TurnStatus
@@ -43,15 +57,15 @@ enum TurnStatus
     End
     
 function enableMovement(User user)
-    user.currentLocation.connections.forEach( con -> con.cityUnit.addAbility(SPELL_ID))
+    user.currentLocation.connections.forEach(con -> con.cityUnit.addAbility(SPELL_ID))
 
 function disableMovement(User user)
     user.currentLocation.connections.forEach(cont -> cont.cityUnit.removeAbility(SPELL_ID))
     
 public function move(unit destination)
     let city = cities.get(destination.getName())
+    let user = getCurrentUser()
     Log.info("Moving to " + city.name)
-    let user = userIterator.current.elem
     disableMovement(user)
     user.currentLocation = city
     user.hero.setPos(city.loc)

@@ -4,6 +4,8 @@ import System
 import City
 import AbilityIds
 import LinkedList
+import InfoBoard
+import ClosureTimers
 
 init
 	Log.info("Welcome to Pandemic")
@@ -11,7 +13,9 @@ init
 	FogEnableOff()
 	FogMaskEnableOff()
 	let activePlayers = initializePlayers()
-	start(activePlayers)
+	initializeMultiBoard()
+	doAfter(1) ->
+		start(activePlayers)
 
 function initializePlayers() returns LinkedList<player>
 	let list = new LinkedList<player>()
