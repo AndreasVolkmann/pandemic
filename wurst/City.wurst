@@ -5,8 +5,8 @@ import LinkedList
 import HashMap
 
 let user = players[1]
-constant scaleFactor = 100
-constant cityTextSize = 18.0
+constant scaleFactor = 70
+constant cityTextSize = 15.0
 public let cities = new HashMap<string, City>()
 
 public class City
@@ -86,5 +86,5 @@ function buildConnection(City a, City b)
 		let next = a.loc.moveTowards(b.loc, i * actualFrequency)
 		createUnit(user, UnitIds.circleofpower, next, angle(0))
 			..setName("From " + a.name + " to " + b.name)
-			..setScale(0.3)
+			..setScale(0.2)
 			..setColor(PLAYER_COLOR_LIGHT_GRAY)

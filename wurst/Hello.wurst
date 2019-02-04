@@ -12,6 +12,7 @@ init
 	createCities()
 	FogEnableOff()
 	FogMaskEnableOff()
+	initEnvironment()
 	let activePlayers = initializePlayers()
 	initializeMultiBoard()
 	doAfter(1) ->
@@ -34,8 +35,12 @@ function initPlayer(player p)
 	disableCommonAbilities(u)
 
 function initializeCamera(player p)
-	p.setCameraField(CAMERA_FIELD_ANGLE_OF_ATTACK, 270, 0)
+	p..setCameraField(CAMERA_FIELD_ANGLE_OF_ATTACK, 270, 0)
 	p.setCameraField(CAMERA_FIELD_TARGET_DISTANCE, 4500, 0)
+
+function initEnvironment()
+	SetTimeOfDay(12)
+	SetTimeOfDayScalePercentBJ(0)
 
 function disableCommonAbilities(unit u)
 	let abilitiesToDisable = [AbilityIds.move, AbilityIds.attack]
