@@ -16,13 +16,14 @@ public class Game
 
     function check() returns boolean
         if diseasesCured == maxDiseases
-            endGame(true)
+            return endGame(true)
         else if numOutbreaks == maxOutBreaks or numPlayerCards == minPlayerCards
-            endGame(false)
+            return endGame(false)
         return false
 
-    function endGame(boolean won)
+    function endGame(boolean won) returns boolean
         if won
             Log.info("Game won!")
         else
             Log.info("Game lost.")
+        return true

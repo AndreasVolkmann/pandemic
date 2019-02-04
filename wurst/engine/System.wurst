@@ -4,61 +4,87 @@ import LinkedList
 import InfoBoard
 import Game
 import Movement
+import Constants
+import TurnStatus
 
-Game game
-let users = new LinkedList<User>()
-LLIterator<User> userIterator
-let turnOrder = new LinkedList<TurnStatus>()..add(TurnStatus.Start, TurnStatus.Move, TurnStatus.End).staticItr()
+public let system = new System()
 
-public function getCurrentUser() returns User
-    return userIterator.current.elem
+public class System
+    Game game
+    let users = new LinkedList<User>()
+    private LLIterator<User> userIterator
+    private let turnOrder = new LinkedList<TurnStatus>()
+        ..add(TurnStatus.Start, TurnStatus.Move, TurnStatus.End).staticItr()
+    var actions = maxActions
 
-public function getCurrentPhase() returns TurnStatus
-    return turnOrder.current.elem
+    function getCurrentUser() returns User
+        return userIterator.current.elem
 
-public function start(LinkedList<player> players)
-    game = new Game()
-    players
-        .map(p -> new User(p))
-        .forEach(u -> users.add(u))
-    // start the game loop
-    userIterator = users.staticItr()
-    userIterator.next()
-    next()
+    function getCurrentPhase() returns TurnStatus
+        return turnOrder.current.elem
 
-function next()
-    game.check()
-    let status = turnOrder.next()
-    let user = getCurrentUser()
-    updateUser(user)
+    function start(LinkedList<player> players)
+        game = new Game()
+        players
+            .map(p -> new User(p))
+            .forEach(u -> users.add(u))
+        // start the game loop
+        userIterator = users.staticItr()
+        userIterator.next()
+        next()
 
-    switch status
-        case TurnStatus.Start
-            Log.info("It is " + user.name + "'s turn")
-            updatePhase("Start")
-            updateTurn(game.turnNumber)
-            next()
-        case TurnStatus.Move
-            Log.info("Time to move")
-            updatePhase("Move")
-            enableMovement(user)
-        case TurnStatus.End
-            Log.info("Turn has ended")
-            updatePhase("End")
-            if userIterator.hasNext()
-            else 
-                userIterator.reset()
-            userIterator.next()
-            turnOrder.reset()
-            game.turnNumber++
-            next()
+    private function getNextStatus() returns TurnStatus
+        let current = turnOrder.current.elem
+        if current == TurnStatus.Move and actions > 0
+            return current
+        else 
+            actions = maxActions
+            return turnOrder.next()
+        
+    private function next()
+        if game.check()
+            return // end of game
+        let status = getNextStatus()
+        let user = getCurrentUser()
+        updateUser(user)
 
-enum TurnStatus
-    Start
-    Move
-    End
+        switch status
+            case TurnStatus.Start
+                Log.info("It is " + user.name + "'s turn")
+                updatePhase("Start")
+                updateTurn(game.turnNumber)
+                next()
+            case TurnStatus.Move
+                Log.info("Actions left: " + actions.toString())
+                updatePhase("Move")
+                enableMovement(user)
+                actions--
+            case TurnStatus.End
+                Log.info("Turn has ended")
+                updatePhase("End")
+                if userIterator.hasNext()
+                else 
+                    userIterator.reset()
+                userIterator.next()
+                turnOrder.reset()
+                game.turnNumber++
+                next()
 
-public function move(unit destination)
-    move(getCurrentUser(), destination)
-    next()
+    function move(unit destination)
+        moveUser(getCurrentUser(), destination)
+        next()
 
+    function treat()
+        next()
+
+    function cure()
+        next()
+
+    function build()
+        next()
+
+    function share()
+        next()
+    
+    function pass()
+        next()

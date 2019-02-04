@@ -1,0 +1,6 @@
+package TurnStatus
+
+public enum TurnStatus
+    Start
+    Move
+    End

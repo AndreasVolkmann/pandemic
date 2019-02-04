@@ -16,6 +16,6 @@ public let BUFF_OBJ = compiletime(createDummyBuffObject(BUFF_NAME, BUFF_TT,	Icon
     ..presetManaCost(lvl -> 0)
     ..presetCooldown(lvl -> 4.)
     ..presetHotkey("Q")
-    ..presetTargetTypes(Targettype.POINT)
-    ..presetAreaofEffect(lvl -> SPELL_RADIUS)
+    ..presetTargetTypes(Targettype.NONE)
+    //..presetAreaofEffect(lvl -> SPELL_RADIUS)
     ..presetOption(Option.TARGETIMAGE, true)

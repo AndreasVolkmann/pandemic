@@ -12,7 +12,7 @@ let buffMap = new HashMap<unit, CallbackSingle>()
 init
 	EventListener.onPointCast(SPELL_ID) (caster, tpos) ->
 		flashEffect(SPELL_EFFECT_PATH, tpos)
-		move(caster)
+		system.move(caster)
 		doAfter(SPELL_EFFECT_DURATION) ->
 			forUnitsInRange(tpos, SPELL_RADIUS) u ->
 				if u.hasAbility(buffId)

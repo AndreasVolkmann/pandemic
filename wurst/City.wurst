@@ -3,10 +3,9 @@ package City
 import UnitIds
 import LinkedList
 import HashMap
+import Constants
 
 let user = players[1]
-constant scaleFactor = 70
-constant cityTextSize = 15.0
 public let cities = new HashMap<string, City>()
 
 public class City
@@ -79,12 +78,13 @@ public function createCities()
 
 function buildConnection(City a, City b)
 	let distance = a.loc.distanceTo(b.loc)
-	let frequency = 3.0
-	let actualFrequency = frequency * scaleFactor
+	let actualFrequency = connectionFrequency * scaleFactor
 	let amount = (distance / actualFrequency).toInt()
 	for i = 1 to max(amount - 1, 1)
 		let next = a.loc.moveTowards(b.loc, i * actualFrequency)
+		createDestructable(1, next, angle(1), 1, 1)
 		createUnit(user, UnitIds.circleofpower, next, angle(0))
 			..setName("From " + a.name + " to " + b.name)
-			..setScale(0.2)
+			..setScale(connectionScale)
 			..setColor(PLAYER_COLOR_LIGHT_GRAY)
+			

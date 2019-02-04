@@ -1,0 +1,8 @@
+package Constants
+
+public constant maxActions = 4
+
+public constant scaleFactor = 50
+public constant cityTextSize = 13.0
+public constant connectionFrequency = 3.0
+public constant connectionScale = 0.2

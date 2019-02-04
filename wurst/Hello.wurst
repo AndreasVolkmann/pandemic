@@ -16,7 +16,7 @@ init
 	let activePlayers = initializePlayers()
 	initializeMultiBoard()
 	doAfter(1) ->
-		start(activePlayers)
+		system.start(activePlayers)
 
 function initializePlayers() returns LinkedList<player>
 	let list = new LinkedList<player>()
@@ -36,7 +36,8 @@ function initPlayer(player p)
 
 function initializeCamera(player p)
 	p..setCameraField(CAMERA_FIELD_ANGLE_OF_ATTACK, 270, 0)
-	p.setCameraField(CAMERA_FIELD_TARGET_DISTANCE, 4500, 0)
+		..setCameraField(CAMERA_FIELD_TARGET_DISTANCE, 3000, 0)
+		..setCameraField(CAMERA_FIELD_FARZ, 5000, 0)
 
 function initEnvironment()
 	SetTimeOfDay(12)
