@@ -1,9 +1,12 @@
 package InfoBoard
 import ClosureTimers
 import User
+import TurnStatus
+import Constants
+import Infection
 
 let columns = 2
-let rows = 4
+let rows = 5
 multiboard b
 
 public function initializeMultiBoard()
@@ -16,8 +19,10 @@ public function initializeMultiBoard()
         updateLabel(1, "Phase:")
         updateLabel(2, "Turn:")
         updateValue(2, "0")
-        updateLabel(3, "Infection:")
-        updateValue(3, "0")
+        updateLabel(3, "Infection Rate:")
+        updateValue(3, infectionRateStart.toString())
+        updateLabel(4, "Outbreaks: ")
+        updateValue(4, "0")
         b.setItemsWidth(0.10)
         b.setItemsStyle(true, false)
         b.display(true)
@@ -26,14 +31,15 @@ public function initializeMultiBoard()
 public function updateUser(User user)
     updateValue(0, user.name)
 
-public function updatePhase(string name)
-    updateValue(1, name)
+public function updatePhase(TurnStatus phase)
+    updateValue(1, phase.getName())
 
 public function updateTurn(int turn)
     updateValue(2, turn.toString())
 
-public function updateInfection()
-    // TODO
+public function updateInfection(Infection infection)
+    updateValue(3, infection.infectionRate.toString())
+    updateValue(4, infection.numOutbreaks.toString())
 
 function updateLabel(int row, string value)
     b.getItem(row, 0).setValue(value)

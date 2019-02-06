@@ -1,0 +1,25 @@
+package Infection
+import LinkedList
+import City
+import Constants
+
+public class Infection
+
+    var infectionRate = infectionRateStart
+    var numOutbreaks = 0
+
+    function infect(LinkedList<string> deck)
+        for i = 0 to infectionRate
+            let cityName = deck.pop()
+            let city = cities.get(cityName)
+            Log.warn("Infecting: " + city.name)
+            let outbreak = city.infect()
+            if outbreak
+                increaseOutBreaks()
+                // TODO up 
+
+    function increaseOutBreaks()
+        numOutbreaks++
+        if numOutbreaks % 2 == 0
+            infectionRate++
+        

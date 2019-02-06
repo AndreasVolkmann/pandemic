@@ -14,7 +14,7 @@ public class System
     let users = new LinkedList<User>()
     private LLIterator<User> userIterator
     private let turnOrder = new LinkedList<TurnStatus>()
-        ..add(TurnStatus.Start, TurnStatus.Move, TurnStatus.End).staticItr()
+        ..add(TurnStatus.Start, TurnStatus.Move, TurnStatus.Draw, TurnStatus.Infect, TurnStatus.End).staticItr()
     var actions = maxActions
 
     function getCurrentUser() returns User
@@ -47,23 +47,27 @@ public class System
         let status = getNextStatus()
         let user = getCurrentUser()
         updateUser(user)
+        updatePhase(status)
 
         switch status
             case TurnStatus.Start
                 Log.info("It is " + user.name + "'s turn")
-                updatePhase("Start")
                 updateTurn(game.turnNumber)
                 next()
             case TurnStatus.Move
                 Log.info("Actions left: " + actions.toString())
-                updatePhase("Move")
                 enableMovement(user)
                 actions--
+            case TurnStatus.Draw
+                next()
+            case TurnStatus.Infect
+                Log.info("Infection")
+                game.infect()
+                updateInfection(game.infection)
+                next()
             case TurnStatus.End
                 Log.info("Turn has ended")
-                updatePhase("End")
-                if userIterator.hasNext()
-                else 
+                if not userIterator.hasNext()
                     userIterator.reset()
                 userIterator.next()
                 turnOrder.reset()
@@ -71,7 +75,7 @@ public class System
                 next()
 
     function move(unit destination)
-        moveUser(getCurrentUser(), destination)
+        getCurrentUser().move(destination)
         next()
 
     function treat()

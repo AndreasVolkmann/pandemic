@@ -1,0 +1,20 @@
+package CityType
+
+public enum CityType
+    Blue
+    Yellow
+    Black
+    Red
+
+public function CityType.getColor() returns playercolor
+    switch this
+        case CityType.Blue
+        	return PLAYER_COLOR_BLUE
+		case CityType.Yellow
+			return PLAYER_COLOR_YELLOW
+		case CityType.Black
+			return PLAYER_COLOR_BLACK_PASSIVE
+		case CityType.Red
+			return PLAYER_COLOR_RED
+		default
+			return PLAYER_COLOR_BLUE

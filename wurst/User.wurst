@@ -10,7 +10,7 @@ public class User
     construct(player p)
         this.p = p
         name = p.getName()
-        currentLocation = cities.get("London") // TODO make random or the like
+        currentLocation = cities.get("atlanta") // start location is Atlanta
         Log.debug(currentLocation.name)
         hero = GetUnitsOfPlayerAll(p).next() // later on choose a hero
-        hero.setPos(currentLocation.loc)
+        hero.setPos(currentLocation.getLocation())

@@ -9,9 +9,9 @@ public function enableMovement(User user)
 function disableMovement(User user)
     user.currentLocation.connections.forEach(cont -> cont.cityUnit.removeAbility(SPELL_ID))
     
-public function moveUser(User user, unit destination)
+public function User.move(unit destination)
     let city = cities.get(destination.getName())
     Log.info("Moving to " + city.name)
-    disableMovement(user)
-    user.currentLocation = city
-    user.hero.setPos(city.loc)
+    disableMovement(this)
+    this.currentLocation = city
+    this.hero.setPos(city.getLocation())

@@ -6,3 +6,6 @@ public constant scaleFactor = 50
 public constant cityTextSize = 13.0
 public constant connectionFrequency = 3.0
 public constant connectionScale = 0.2
+
+public constant infectionRateStart = 2
+public constant outbreakLimit = 3

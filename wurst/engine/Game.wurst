@@ -1,23 +1,33 @@
 package Game
 
+import City
+import LinkedList
+import Infection
+
 public class Game
     var turnNumber = 0
 
     var diseasesCured = 0
     let maxDiseases = 4
 
-    var numOutbreaks = 0
     let maxOutBreaks = 8
 
     var numPlayerCards = 59
-    let minPlayerCards = 0
+    let minPlayerCards = 2 // If, as you are about to draw, there are fewer than 2 cards left in the Player Deck, the game ends and your team has lost!
+
+    let infection = new Infection()
+    LinkedList<string> deck = cityNames.copy()
 
     construct()
+        deck.shuffle()
+
+    function infect()
+        infection.infect(deck)
 
     function check() returns boolean
         if diseasesCured == maxDiseases
             return endGame(true)
-        else if numOutbreaks == maxOutBreaks or numPlayerCards == minPlayerCards
+        else if infection.numOutbreaks == maxOutBreaks or numPlayerCards < minPlayerCards
             return endGame(false)
         return false
 

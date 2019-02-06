@@ -3,4 +3,21 @@ package TurnStatus
 public enum TurnStatus
     Start
     Move
+    Draw
+    Infect
     End
+
+public function TurnStatus.getName() returns string
+    switch this
+        case Start
+            return "Start"
+        case Move
+            return "Move"
+        case Draw
+            return "Draw"
+        case Infect
+            return "Infect"
+        case End
+            return "End"
+        default 
+            return "Unknown"
