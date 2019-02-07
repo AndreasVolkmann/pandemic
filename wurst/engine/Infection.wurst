@@ -4,19 +4,39 @@ import City
 import Constants
 
 public class Infection
-
     var infectionRate = infectionRateStart
     var numOutbreaks = 0
+    LinkedList<string> deck
+    LLIterator<string> iterator
 
-    function infect(LinkedList<string> deck)
+    construct(LinkedList<string> deck)
+        this.deck = deck
+        shuffle()
+
+    function initialInfection()
+        for i = 0 to 3
+            for j = 0 to 3
+                infectCity(j + 1, true)
+
+    private function shuffle()
+        Log.info("Infection deck is empty, shuffling ...")
+        // TODO wait a bit :)
+        deck.shuffle()
+        iterator = deck.iterator()
+
+    function infect()    
         for i = 0 to infectionRate
-            let cityName = deck.pop()
-            let city = cities.get(cityName)
-            Log.warn("Infecting: " + city.name)
-            let outbreak = city.infect()
-            if outbreak
-                increaseOutBreaks()
-                // TODO up 
+            infectCity(1, false)
+
+    private function infectCity(int amount, boolean isInitial)
+        if not iterator.hasNext()
+            shuffle()
+        let cityName = iterator.next()
+        let city = cities.get(cityName)
+        Log.warn("Infecting: " + city.name)
+        let outbreak = city.infect(amount)
+        if outbreak and not isInitial
+            increaseOutBreaks()
 
     function increaseOutBreaks()
         numOutbreaks++

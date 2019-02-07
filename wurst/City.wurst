@@ -18,6 +18,7 @@ public class City
 	CityType cityType
 	let infectionMap = new HashMap<CityType, int>()
 	protected var model = UnitIds.circleofpower
+	private texttag tag
 
 	construct(string name, real x, real  y, CityType cityType)
 		this.name = name
@@ -33,7 +34,7 @@ public class City
 				..setName(name)
 				..setColor(cityType.getColor())
 				..setInvulnerable(true)
-			CreateTextTagLocBJ(name, u.getLoc(), 40, cityTextSize, 100, 100, 100, 0)
+			tag = CreateTextTagLocBJ(name, u.getLoc(), 40, cityTextSize, 100, 100, 100, 0)
 			cityUnit = u
 			register()
 	
@@ -65,18 +66,22 @@ public class City
 		new ProxyCity(b, aProxyLoc, this)
 		new ProxyCity(this, bProxyLoc, b)
 
-	function infect() returns boolean
+	function infect(int rate) returns boolean
 		int amount
 		if infectionMap.has(cityType)
 			amount = infectionMap.get(cityType)
 		else 
 			amount = 0
-		if amount == outbreakLimit
-			return true // outbreak
-		else 
-			amount++
-			infectionMap.put(cityType, amount)
-			return false
+		amount = min(3, amount + rate) // don't go beyond limit
+		infectionMap.put(cityType, amount)
+		updateTextTag()
+		return amount >= outbreakLimit
+
+	private function updateTextTag()
+		let infection = infectionMap.get(cityType)
+		tag.setText(name + " (" + infection.toString() + ")", cityTextSize)
+		let red = 100 + infection * 50
+		tag.setColor(red, 100, 100, 0)
 
 class ProxyCity extends City
 	City actual

@@ -20,15 +20,11 @@ public class System
     function getCurrentUser() returns User
         return userIterator.current.elem
 
-    function getCurrentPhase() returns TurnStatus
-        return turnOrder.current.elem
-
     function start(LinkedList<player> players)
-        game = new Game()
         players
             .map(p -> new User(p))
             .forEach(u -> users.add(u))
-        // start the game loop
+        game = new Game()..start()
         userIterator = users.staticItr()
         userIterator.next()
         next()
