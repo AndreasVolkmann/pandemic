@@ -19,25 +19,31 @@ init
 		system.start(activePlayers)
 
 function initializePlayers() returns LinkedList<player>
+	players[4].setColor(PLAYER_COLOR_BLUE)
+	players[5].setColor(PLAYER_COLOR_YELLOW)
+	players[6].setColor(PLAYER_COLOR_BLACK_PASSIVE)
+	players[7].setColor(PLAYER_COLOR_RED)
 	let list = new LinkedList<player>()
-		..add(players[0]) // TODO add all other players
+		..add(players[0], players[1], players[2], players[3])
+		.filter(p -> p.isIngame())
 		..forEach(p -> initPlayer(p))
 	return list 
 
 function initPlayer(player p)
-	let computer = players[1]
-	computer
-		..setUserControl(false)
-		..setPlayerAlliance(p, ALLIANCE_SHARED_CONTROL, true)
-	p.setPlayerAlliance(computer, ALLIANCE_PASSIVE, true)
+	let computerPlayers = new LinkedList<int>()
+		..add(4, 5, 6, 7)
+		.map(i -> players[i])
+		.forEach() com ->
+			com..setPlayerAlliance(p, ALLIANCE_SHARED_CONTROL, true)
+			p.setPlayerAlliance(com, ALLIANCE_PASSIVE, true)
 	initializeCamera(p)
 	let u = GetUnitsOfPlayerAll(p).next()
 	disableCommonAbilities(u)
 
 function initializeCamera(player p)
 	p..setCameraField(CAMERA_FIELD_ANGLE_OF_ATTACK, 270, 0)
-		..setCameraField(CAMERA_FIELD_TARGET_DISTANCE, 3000, 0)
-		..setCameraField(CAMERA_FIELD_FARZ, 5000, 0)
+		..setCameraField(CAMERA_FIELD_TARGET_DISTANCE, 3500, 0)
+		..setCameraField(CAMERA_FIELD_FARZ, 6000, 0)
 
 function initEnvironment()
 	SetTimeOfDay(12)

@@ -9,7 +9,7 @@ public enum CityType
 public function CityType.getColor() returns playercolor
     switch this
         case CityType.Blue
-        	return PLAYER_COLOR_BLUE
+			return PLAYER_COLOR_BLUE
 		case CityType.Yellow
 			return PLAYER_COLOR_YELLOW
 		case CityType.Black
@@ -17,4 +17,17 @@ public function CityType.getColor() returns playercolor
 		case CityType.Red
 			return PLAYER_COLOR_RED
 		default
-			return PLAYER_COLOR_BLUE
+            return PLAYER_COLOR_BLUE
+            
+public function CityType.getOwner() returns player
+    switch this
+        case CityType.Blue
+        	return players[4]
+		case CityType.Yellow
+			return players[5]
+		case CityType.Black
+			return players[6]
+		case CityType.Red
+			return players[7]
+		default
+            return players[4]

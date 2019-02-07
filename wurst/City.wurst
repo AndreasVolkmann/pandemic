@@ -5,8 +5,8 @@ import LinkedList
 import HashMap
 import Constants
 import CityType
+import AbilityIds
 
-let user = players[1]
 public let cities = new IterableMap<string, City>()
 public let cityNames = new LinkedList<string>()
 
@@ -17,7 +17,7 @@ public class City
 	unit cityUnit
 	CityType cityType
 	let infectionMap = new HashMap<CityType, int>()
-	var model = UnitIds.circleofpower
+	protected var model = UnitIds.circleofpower
 
 	construct(string name, real x, real  y, CityType cityType)
 		this.name = name
@@ -29,14 +29,17 @@ public class City
 
 	function build()
 		if cityUnit == null
-			let u =  createUnit(user, model, loc, angle(90))
+			let u =  createUnit(cityType.getOwner(), model, loc, angle(90))
 				..setName(name)
 				..setColor(cityType.getColor())
+				..setInvulnerable(true)
 			CreateTextTagLocBJ(name, u.getLoc(), 40, cityTextSize, 100, 100, 100, 0)
 			cityUnit = u
-			if not this instanceof ProxyCity
-				cities.put(name, this) // TODO proxy overwrite
-				cityNames.add(name)
+			register()
+	
+	protected function register()
+		cities.put(name, this)
+		cityNames.add(name)
 
 	function link(vararg City other)
 		build()
@@ -52,15 +55,15 @@ public class City
 		let amount = (distance / actualFrequency).toInt()
 		for i = 1 to max(amount - 1, 1)
 			let next = a.loc.moveTowards(b.loc, i * actualFrequency)
-			//createDestructable(1, next, angle(1), 1, 1)
-			createUnit(user, UnitIds.circleofpower, next, angle(0))
+			createUnit(cityType.getOwner(), UnitIds.circleofpower, next, angle(0))
 				..setName("From " + a.name + " to " + b.name)
 				..setScale(connectionScale)
 				..setColor(PLAYER_COLOR_LIGHT_GRAY)
+				..addAbility(AbilityIds.locust)
 
 	function proxy(City b, vec2 aProxyLoc, vec2 bProxyLoc)
-		new ProxyCity(b, aProxyLoc)
-		new ProxyCity(this, bProxyLoc)
+		new ProxyCity(b, aProxyLoc, this)
+		new ProxyCity(this, bProxyLoc, b)
 
 	function infect() returns boolean
 		int amount
@@ -78,15 +81,19 @@ public class City
 class ProxyCity extends City
 	City actual
 
-	construct(City actual, vec2 loc)
+	construct(City actual, vec2 loc, City origin)
 		super(actual.name, loc.x, loc.y, actual.cityType)
+		model = UnitIds.seaturtle
 		this.actual = actual
-		link(actual)
+		link(origin)
+		
 		
 	override function getLocation() returns vec2
 		return actual.loc
 
-		
+	override function register()
+		return // do not register proxies
+
 
 //let shenzhen = new City("Shenzhen", 20, 5)
 let london = new City("London", -5, 5, CityType.Blue)
@@ -129,4 +136,6 @@ public function createCities()
 	delhi.link(karachi, kolkata)
 	hongKong.link(kolkata, shanghai)
 	tokyo.link(shanghai)
-	sanFrancisco.proxy(tokyo, vec2(sanFrancisco.loc.x - 20, sanFrancisco.loc.y), vec2(tokyo.loc.x + 20, tokyo.loc.y))
+	sanFrancisco.proxy(tokyo, 
+		vec2(sanFrancisco.loc.x / scaleFactor - 20, sanFrancisco.loc.y /scaleFactor), 
+		vec2(tokyo.loc.x / scaleFactor + 20, tokyo.loc.y / scaleFactor))
