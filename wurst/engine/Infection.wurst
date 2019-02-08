@@ -2,12 +2,16 @@ package Infection
 import LinkedList
 import City
 import Constants
+import HashMap
+import CityType
+import Util
 
 public class Infection
     var infectionRate = infectionRateStart
     var numOutbreaks = 0
     LinkedList<string> deck
     LLIterator<string> iterator
+    let globalInfectionMap = new HashMap<CityType, int>()
 
     construct(LinkedList<string> deck)
         this.deck = deck
@@ -24,9 +28,13 @@ public class Infection
         deck.shuffle()
         iterator = deck.iterator()
 
-    function infect()    
+    function infect()     
         for i = 0 to infectionRate
             infectCity(1, false)
+    
+    function diseaseSpreadTooMuch() returns boolean
+
+        return false
 
     private function infectCity(int amount, boolean isInitial)
         if not iterator.hasNext()
@@ -34,12 +42,19 @@ public class Infection
         let cityName = iterator.next()
         let city = cities.get(cityName)
         Log.warn("Infecting: " + city.name)
-        let outbreak = city.infect(amount)
-        if outbreak and not isInitial
-            increaseOutBreaks()
+        increaseGlobalDiseaseCount(city, amount, isInitial)
 
     function increaseOutBreaks()
         numOutbreaks++
         if numOutbreaks % 2 == 0
             infectionRate++
+
+    private function increaseGlobalDiseaseCount(City city, int amount, boolean isInitial)
+        let cityType = city.cityType
+        let before = city.infectionMap.get(cityType)
+        let cityAmount = city.infect(amount)
+        let difference = cityAmount - before
+        globalInfectionMap.addInt(cityType, difference)
+        if cityAmount >= outbreakLimit and not isInitial
+            increaseOutBreaks()
         

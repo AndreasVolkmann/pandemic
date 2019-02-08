@@ -1,0 +1,15 @@
+package Util
+import HashMap
+
+public function HashMap<T, int>.getOrZero<T>(T key) returns int
+    if this.has(key)
+        return this.get(key)
+    else 
+        return 0
+
+public function HashMap<T, int>.addInt<T>(T key, int addition) returns int
+    let current = this.getOrZero(key)
+    let result = current + addition
+    this.put(key, result)
+    return result
+    

@@ -6,6 +6,7 @@ import HashMap
 import Constants
 import CityType
 import AbilityIds
+import Util
 
 public let cities = new IterableMap<string, City>()
 public let cityNames = new LinkedList<string>()
@@ -66,16 +67,12 @@ public class City
 		new ProxyCity(b, aProxyLoc, this)
 		new ProxyCity(this, bProxyLoc, b)
 
-	function infect(int rate) returns boolean
-		int amount
-		if infectionMap.has(cityType)
-			amount = infectionMap.get(cityType)
-		else 
-			amount = 0
+	function infect(int rate) returns int
+		var amount = infectionMap.getOrZero(cityType)
 		amount = min(3, amount + rate) // don't go beyond limit
 		infectionMap.put(cityType, amount)
 		updateTextTag()
-		return amount >= outbreakLimit
+		return amount
 
 	private function updateTextTag()
 		let infection = infectionMap.get(cityType)

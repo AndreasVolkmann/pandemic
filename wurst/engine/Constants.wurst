@@ -9,3 +9,4 @@ public constant connectionScale = 0.2
 
 public constant infectionRateStart = 2
 public constant outbreakLimit = 3
+public constant numDiseasesPerType = 24

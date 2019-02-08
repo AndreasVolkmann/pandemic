@@ -21,15 +21,24 @@ public class Game
     function start()
         infection.initialInfection()
 
+    function draw() returns string
+        return deck.pop()
+
     function infect()
         infection.infect()
 
     function check() returns boolean
         if diseasesCured == maxDiseases
-            return endGame(true)
-        else if infection.numOutbreaks == maxOutBreaks or deck.size() < minPlayerCards
-            return endGame(false)
-        return false
+            endGame(true)
+        else if infection.numOutbreaks == maxOutBreaks
+            endGame(false)
+        else if deck.size() < minPlayerCards
+            endGame(false)
+        else if infection.diseaseSpreadTooMuch()
+            endGame(false)
+        else   
+            return false
+        return true
 
     function endGame(boolean won) returns boolean
         if won
