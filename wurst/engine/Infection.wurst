@@ -14,7 +14,7 @@ public class Infection
     let globalInfectionMap = new HashMap<CityType, int>()
 
     construct(LinkedList<string> deck)
-        this.deck = deck
+        this.deck = deck.copy()
         shuffle()
 
     function initialInfection()

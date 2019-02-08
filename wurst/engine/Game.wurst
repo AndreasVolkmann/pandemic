@@ -3,6 +3,7 @@ package Game
 import City
 import Infection
 import LinkedList
+import Util
 
 public class Game
     var turnNumber = 0
@@ -12,7 +13,7 @@ public class Game
     let maxOutBreaks = 8
     let minPlayerCards = 2 // If, as you are about to draw, there are fewer than 2 cards left in the Player Deck, the game ends and your team has lost!
 
-    private let deck = cityNames.copy()
+    private let deck = cities.getKeys()
     Infection infection = new Infection(deck)
 
     construct()

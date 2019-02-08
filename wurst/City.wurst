@@ -9,7 +9,6 @@ import AbilityIds
 import Util
 
 public let cities = new IterableMap<string, City>()
-public let cityNames = new LinkedList<string>()
 
 public class City
 	string name
@@ -41,7 +40,6 @@ public class City
 	
 	protected function register()
 		cities.put(name, this)
-		cityNames.add(name)
 
 	function link(vararg City other)
 		build()

@@ -1,5 +1,6 @@
 package Util
 import HashMap
+import LinkedList
 
 public function HashMap<T, int>.getOrZero<T>(T key) returns int
     if this.has(key)
@@ -13,3 +14,9 @@ public function HashMap<T, int>.addInt<T>(T key, int addition) returns int
     this.put(key, result)
     return result
     
+public function IterableMap<K, V>.getKeys<K, V>() returns LinkedList<K>
+    let iter = this.iterator()
+    let list = new LinkedList<K>()
+    while iter.hasNext()
+        list.add(iter.next())
+    return list
