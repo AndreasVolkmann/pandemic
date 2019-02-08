@@ -23,15 +23,13 @@ function initializePlayers() returns LinkedList<player>
 	players[5].setColor(PLAYER_COLOR_YELLOW)
 	players[6].setColor(PLAYER_COLOR_BLACK_PASSIVE)
 	players[7].setColor(PLAYER_COLOR_RED)
-	let list = new LinkedList<player>()
-		..add(players[0], players[1], players[2], players[3])
+	let list = asList(players[0], players[1], players[2], players[3])
 		.filter(p -> p.isIngame())
-		..forEach(p -> initPlayer(p))
+		.forEach(p -> initPlayer(p))
 	return list 
 
 function initPlayer(player p)
-	let computerPlayers = new LinkedList<int>()
-		..add(4, 5, 6, 7)
+	let computerPlayers = asList(4, 5, 6, 7)
 		.map(i -> players[i])
 		.forEach() com ->
 			com..setPlayerAlliance(p, ALLIANCE_SHARED_CONTROL, true)
@@ -50,6 +48,5 @@ function initEnvironment()
 	SetTimeOfDayScalePercentBJ(0)
 
 function disableCommonAbilities(unit u)
-	let abilitiesToDisable = [AbilityIds.move, AbilityIds.attack]
-	for i = 0 to 1
-		u.disableAbility(abilitiesToDisable[i], false, true)
+	asList(AbilityIds.move, AbilityIds.attack).forEach(ab -> u.disableAbility(ab, false, true))
+		

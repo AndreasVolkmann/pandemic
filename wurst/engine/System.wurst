@@ -13,8 +13,7 @@ public class System
     Game game
     let users = new LinkedList<User>()
     private LLIterator<User> userIterator
-    private let turnOrder = new LinkedList<TurnStatus>()
-        ..add(TurnStatus.Start, TurnStatus.Move, TurnStatus.Draw, TurnStatus.Infect, TurnStatus.End).staticItr()
+    private let turnOrder = asList(TurnStatus.Start, TurnStatus.Move, TurnStatus.Draw, TurnStatus.Infect, TurnStatus.End).staticItr()
     var actions = maxActions
 
     function getCurrentUser() returns User
