@@ -21,6 +21,7 @@ public class Game
 
     function start()
         infection.initialInfection()
+        turnNumber++
 
     function draw() returns string
         return deck.pop()

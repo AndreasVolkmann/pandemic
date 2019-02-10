@@ -18,8 +18,8 @@ public class Infection
         shuffle()
 
     function initialInfection()
-        for i = 0 to 3
-            for j = 0 to 3
+        for i = 0 to 2
+            for j = 0 to 2
                 infectCity(j + 1, true)
 
     private function shuffle()
@@ -29,7 +29,7 @@ public class Infection
         iterator = deck.iterator()
 
     function infect()     
-        for i = 0 to infectionRate
+        for i = 1 to infectionRate
             infectCity(1, false)
     
     function diseaseSpreadTooMuch() returns boolean
