@@ -8,9 +8,9 @@ import CityType
 import AbilityIds
 import Util
 
-public let cities = new IterableMap<string, City>()
-
 public class City
+	static let cities = new IterableMap<string, City>()
+
 	string name
 	protected vec2 loc
 	LinkedList<City> connections = new LinkedList<City>()
@@ -24,6 +24,7 @@ public class City
 		this.name = name
 		this.loc = vec2(x * scaleFactor, y * scaleFactor) 
 		this.cityType = cityType
+		register()
 
 	function getLocation() returns vec2
 		return loc
@@ -36,7 +37,6 @@ public class City
 				..setInvulnerable(true)
 			tag = CreateTextTagLocBJ(name, u.getLoc(), 40, cityTextSize, 100, 100, 100, 0)
 			cityUnit = u
-			register()
 	
 	protected function register()
 		cities.put(name, this)
@@ -86,56 +86,9 @@ class ProxyCity extends City
 		model = UnitIds.seaturtle
 		this.actual = actual
 		link(origin)
-		
-		
+				
 	override function getLocation() returns vec2
 		return actual.loc
 
 	override function register()
 		return // do not register proxies
-
-
-//let shenzhen = new City("Shenzhen", 20, 5)
-let london = new City("London", -5, 5, CityType.Blue)
-let paris = new City("Paris", -1, -1, CityType.Blue)
-let madrid = new City("Madrid", -6, -7, CityType.Blue)
-let newYork = new City("New York", -20, 1, CityType.Blue)
-let montreal = new City("Montreal", -30, 5, CityType.Blue)
-let saoPaulo = new City("Sao Paulo", -12, -30, CityType.Yellow)
-let bogota = new City("Bogota", -30, -15, CityType.Yellow)
-let miami = new City("Miami", -30, -10, CityType.Yellow)
-let washington = new City("Washington", -25, -8, CityType.Blue)
-let atlanta = new City("Atlanta", -35, -8, CityType.Blue)
-let chicago = new City("Chicago", -40, 0, CityType.Blue)
-let sanFrancisco = new City("San Francisco", -50, -1, CityType.Blue)
-let algiers = new City("Algiers", 5, -10, CityType.Black)
-let cairo = new City("Cairo", 15, -12, CityType.Black)
-let riyadh = new City("Riyadh", 25, -17, CityType.Black)
-let karachi = new City("Karachi", 35, -10, CityType.Black)
-let delhi = new City("Delhi", 45, -5, CityType.Black)
-let kolkata = new City("Kolkata", 55, -9, CityType.Black)
-let hongKong = new City("Hong Kong", 70, -16, CityType.Red)
-let shanghai = new City("Shanghai", 71, -5, CityType.Red)
-let tokyo = new City("Tokyo", 80, 1, CityType.Red)
-let kartoum = new City("Kartoum", 15, -20, CityType.Yellow)
-let lagos = new City("Lagos", 4, -20, CityType.Yellow)
-
-public function createCities()
-	london.link(paris, madrid, newYork)
-	paris.link(madrid)
-	madrid.link(newYork, saoPaulo)
-	bogota.link(saoPaulo, miami)
-	washington.link(miami, newYork, montreal, atlanta)
-	atlanta.link(miami, chicago)
-	montreal.link(newYork, chicago)
-	chicago.link(sanFrancisco)
-	algiers.link(paris, madrid, cairo)
-	kartoum.link(cairo, lagos)
-	lagos.link(saoPaulo)
-	riyadh.link(cairo, karachi)
-	delhi.link(karachi, kolkata)
-	hongKong.link(kolkata, shanghai)
-	tokyo.link(shanghai)
-	sanFrancisco.proxy(tokyo, 
-		vec2(sanFrancisco.loc.x / scaleFactor - 20, sanFrancisco.loc.y /scaleFactor), 
-		vec2(tokyo.loc.x / scaleFactor + 20, tokyo.loc.y / scaleFactor))

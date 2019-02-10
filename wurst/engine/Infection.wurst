@@ -33,14 +33,14 @@ public class Infection
             infectCity(1, false)
     
     function diseaseSpreadTooMuch() returns boolean
-
+        
         return false
 
     private function infectCity(int amount, boolean isInitial)
         if not iterator.hasNext()
             shuffle()
         let cityName = iterator.next()
-        let city = cities.get(cityName)
+        let city = City.cities.get(cityName)
         Log.warn("Infecting: " + city.name)
         increaseGlobalDiseaseCount(city, amount, isInitial)
 

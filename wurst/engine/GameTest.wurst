@@ -1,0 +1,11 @@
+package GameTest
+
+import Game
+import CityFactory
+import City
+
+@Test public function conditions()
+    createCities(false)
+    City.cities.size().assertGreaterThan(0)
+    let g = new Game()
+    g.check().assertFalse()

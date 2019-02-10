@@ -10,7 +10,7 @@ function disableMovement(User user)
     user.currentLocation.connections.forEach(cont -> cont.cityUnit.removeAbility(SPELL_ID))
     
 public function User.move(unit destination)
-    let city = cities.get(destination.getName())
+    let city = City.cities.get(destination.getName())
     Log.info("Moving to " + city.name)
     disableMovement(this)
     this.currentLocation = city

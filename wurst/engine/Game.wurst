@@ -13,7 +13,7 @@ public class Game
     let maxOutBreaks = 8
     let minPlayerCards = 2 // If, as you are about to draw, there are fewer than 2 cards left in the Player Deck, the game ends and your team has lost!
 
-    private let deck = cities.getKeys()
+    private let deck = City.cities.getKeys()
     Infection infection = new Infection(deck)
 
     construct()
@@ -31,20 +31,20 @@ public class Game
 
     function check() returns boolean
         if diseasesCured == maxDiseases
-            endGame(true)
+            endGame(true, "All diseases cured.")
         else if infection.numOutbreaks == maxOutBreaks
-            endGame(false)
+            endGame(false, "Too many outbreaks")
         else if deck.size() < minPlayerCards
-            endGame(false)
+            endGame(false, "Player deck is empty")
         else if infection.diseaseSpreadTooMuch()
-            endGame(false)
+            endGame(false, "Diseases spread too much")
         else   
             return false
         return true
 
-    function endGame(boolean won) returns boolean
+    function endGame(boolean won, string reason) returns boolean
         if won
             Log.info("Game won!")
         else
-            Log.info("Game lost.")
+            Log.info("Game lost. " + reason)
         return true
