@@ -2,16 +2,34 @@ package Movement
 import User
 import City
 import ConflagrationObjects
+import ShuttleObjects
 
 public function enableMovement(User user)
-    user.currentLocation.connections.forEach(con -> con.cityUnit.addAbility(SPELL_ID))
+    user.currentLocation.connections.forEach() con ->
+        con.enableMovement(SPELL_ID)
+    user.getCityCards().forEach() card -> 
+        card.city.enableMovement(SHUTTLE_SPELL_ID)
 
 function disableMovement(User user)
-    user.currentLocation.connections.forEach(cont -> cont.cityUnit.removeAbility(SPELL_ID))
+    user.currentLocation.connections.forEach() cont -> 
+        cont.disableMovement(SPELL_ID)
+    user.getCityCards().forEach() card -> 
+        card.city.disableMovement(SHUTTLE_SPELL_ID)
     
-public function User.move(unit destination)
+public function User.move(unit destination, boolean isCard)
     let city = City.cities.get(destination.getName())
     Log.info("Moving to " + city.name)
     disableMovement(this)
+    if isCard
+        city.disableMovement(SHUTTLE_SPELL_ID)
+        this.hand.removeIf(c -> c.getName() == city.name)
     this.currentLocation = city
     this.hero.setPos(city.getLocation())
+
+function City.enableMovement(int id)
+    this.cityUnit.addAbility(id)
+
+function City.disableMovement(int id)
+    this.cityUnit.removeAbility(id)
+
+

@@ -4,8 +4,13 @@ import City
 import Infection
 import LinkedList
 import Util
+import Card
+import CardFactory
+import User
+import InfoBoard
 
 public class Game
+    let users = new LinkedList<User>()
     var turnNumber = 0
 
     var diseasesCured = 0
@@ -13,18 +18,41 @@ public class Game
     let maxOutBreaks = 8
     let minPlayerCards = 2 // If, as you are about to draw, there are fewer than 2 cards left in the Player Deck, the game ends and your team has lost!
 
-    private let deck = City.cities.getKeys()
-    Infection infection = new Infection(deck)
+    private LinkedList<Card> deck
+    Infection infection
 
-    construct()
-        deck.shuffle()
+    construct(LinkedList<player> players)
+        let cityKeys = City.cities.getKeys()
+        deck = generateDeck(cityKeys)
+            
+        infection = new Infection(cityKeys)
+        let numPlayers = players.size()
+        var numInitialCards = 4
+        if numPlayers == 3
+            numInitialCards = 3
+        else if numPlayers >= 4
+            numInitialCards = 2
+        players
+            .map(p -> new User(p))
+            .forEach(u -> users.add(u))
+            .forEach(u -> draw(u, numInitialCards))
+
+        // after initial cards have been drewn, add epidemic cards to deck
+        addEpidemicCards(deck)
 
     function start()
         infection.initialInfection()
         turnNumber++
 
-    function draw() returns string
-        return deck.pop()
+    function draw(User user)
+        draw(user, 2)
+
+    private function draw(User user, int amount)
+        repeat(amount) i ->
+            let card = deck.pop()
+            user.hand.add(card)
+            Log.info("Drew: " + card.getName())
+        updateCardsLeftInDeck(deck.size())
 
     function infect()
         infection.infect()

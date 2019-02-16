@@ -1,0 +1,27 @@
+package Card
+
+public interface Card 
+
+    function play()
+
+    function getName() returns string
+
+public class EpidemicCard implements Card
+
+    override function play()
+
+    override function getName() returns string
+        return "Epidemic"
+
+
+public class EventCard implements Card
+
+    string name
+
+    construct(string name)
+        this.name = name
+
+    override function play()
+
+    override function getName() returns string
+        return name

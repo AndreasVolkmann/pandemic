@@ -6,7 +6,7 @@ import Constants
 import Infection
 
 let columns = 2
-let rows = 5
+let rows = 6
 multiboard b
 
 public function initializeMultiBoard()
@@ -23,6 +23,8 @@ public function initializeMultiBoard()
         updateValue(3, infectionRateStart.toString())
         updateLabel(4, "Outbreaks: ")
         updateValue(4, "0")
+        updateLabel(5, "Cards left in deck: ")
+        updateValue(5, "0")
         b.setItemsWidth(0.10)
         b.setItemsStyle(true, false)
         b.display(true)
@@ -40,6 +42,9 @@ public function updateTurn(int turn)
 public function updateInfection(Infection infection)
     updateValue(3, infection.infectionRate.toString())
     updateValue(4, infection.numOutbreaks.toString())
+
+public function updateCardsLeftInDeck(int amount)
+    updateValue(5, amount.toString())
 
 function updateLabel(int row, string value)
     b.getItem(row, 0).setValue(value)

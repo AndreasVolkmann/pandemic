@@ -1,0 +1,29 @@
+package User
+import City
+import LinkedList
+import Card
+import CityCard
+import DialogMovementObjects
+import TreatObjects
+
+public class User
+    player p
+    string name
+    City currentLocation 
+    unit hero
+
+    LinkedList<Card> hand = new LinkedList<Card>()
+
+    construct(player p)
+        this.p = p
+        name = p.getName()
+        currentLocation = City.cities.get("atlanta") // start location is Atlanta
+        Log.debug(currentLocation.name)
+        hero = GetUnitsOfPlayerAll(p).next() // later on choose a hero
+        hero.setPos(currentLocation.getLocation())
+        hero.addAbility(SPELL_ID)
+        hero.addAbility(TREAT_SPELL_ID)
+
+
+    function getCityCards() returns LinkedList<CityCard>
+        return this.hand.filter(card -> card instanceof CityCard).map(c -> c castTo CityCard)

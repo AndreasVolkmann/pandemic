@@ -1,0 +1,15 @@
+package Shuttle
+
+import public BuffObjEditing
+import public Assets
+import ClosureEvents
+import System
+import ShuttleObjects
+
+init
+    EventListener.onPointCast(SHUTTLE_SPELL_ID) (caster, tpos) ->
+        system.move(caster, true)
+        
+    
+            
+    

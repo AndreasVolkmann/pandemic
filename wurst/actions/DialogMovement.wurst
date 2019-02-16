@@ -1,0 +1,32 @@
+package DialogMovement
+
+import public BuffObjEditing
+import public Assets
+import ClosureEvents
+import System
+import DialogMovementObjects
+import Dialog
+
+init
+    EventListener.onPointCast(SPELL_ID) (caster, tpos) ->
+        let d = createDialog()
+            ..setMessage("Where do you want to go?")
+        let user = system.getCurrentUser()
+        var hotkey = 0
+        user.currentLocation.connections.forEach() c->
+            d.addButton(c.name, hotkey)
+            hotkey++
+        d..addButton("Cancel", hotkey)
+            ..display(user.p, true)
+        
+    
+            
+    
+
+    
+    
+
+    
+
+        
+        

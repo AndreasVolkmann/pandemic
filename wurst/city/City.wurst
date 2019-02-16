@@ -72,6 +72,13 @@ public class City
 		updateTextTag()
 		return amount
 
+	function treat()
+		Log.debug(infectionMap.get(cityType).toString())
+		if infectionMap.getOrZero(cityType) > 0
+			infectionMap.addInt(cityType, -1)
+			updateTextTag()
+		
+
 	private function updateTextTag()
 		let infection = infectionMap.get(cityType)
 		tag.setText(name + " (" + infection.toString() + ")", cityTextSize)

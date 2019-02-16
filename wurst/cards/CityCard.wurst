@@ -1,0 +1,18 @@
+package CityCard
+import Card
+import City
+
+public class CityCard implements Card
+
+    City city
+
+    construct(City city)
+        this.city = city
+
+    override function play()
+        Log.info("Played city card: " + city.name)
+        // system.move(city.cityUnit)
+        
+
+    override function getName() returns string
+        return city.name

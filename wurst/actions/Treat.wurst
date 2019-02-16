@@ -1,0 +1,12 @@
+package Treat
+
+import public BuffObjEditing
+import TreatObjects
+import ClosureEvents
+import System
+
+init
+    EventListener.onPointCast(TREAT_SPELL_ID) (caster, tpos) ->
+		system.treat()
+
+

@@ -1,0 +1,17 @@
+package CardFactory
+import LinkedList
+import Card
+import CityCard
+import City
+
+public function generateDeck(LinkedList<string> keys) returns LinkedList<Card>
+    LinkedList<Card> cityCards = keys.map<Card>(k -> new CityCard(City.cities.get(k)))
+    LinkedList<Card> eventCards = new LinkedList<Card>() // TODO 
+    return cityCards
+        ..addAll(eventCards)
+        ..shuffle()
+
+public function addEpidemicCards(LinkedList<Card> deck) returns LinkedList<Card>
+    LinkedList<Card> epidemicCards = new LinkedList<Card>() // TODO depending on difficulty level 4, 5, or 6 cards
+    // maybe custom shuffle so that epidemic cards appear consistently
+    return deck..addAll(epidemicCards)..shuffle()

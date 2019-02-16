@@ -1,0 +1,20 @@
+package ShuttleObjects
+
+import public BuffObjEditing
+import public Assets
+import ChannelAbilityPreset
+
+public let SHUTTLE_SPELL_ID = compiletime(ABIL_ID_GEN.next())
+
+@compiletime function genObj()
+    new ChannelAbilityPreset(SHUTTLE_SPELL_ID, 1, true)
+    ..setName("Move (Card)")
+    ..presetTooltipNormal(lvl -> "Move to this city by discarding the corresponding card from your hand")
+    //..presetTooltipNormalExtended(lvl -> "Opens a dialog that let's you choose where to move to")
+    ..presetIcon(Icons.bTN3M1)
+    ..presetButtonPosNormal(0, 0)
+    ..presetManaCost(lvl -> 0)
+    ..presetCooldown(lvl -> 1)
+    ..presetHotkey("W")
+    ..presetTargetTypes(Targettype.NONE)
+    ..presetOption(Option.TARGETIMAGE, true)

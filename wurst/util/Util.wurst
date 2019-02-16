@@ -20,3 +20,7 @@ public function IterableMap<K, V>.getKeys<K, V>() returns LinkedList<K>
     while iter.hasNext()
         list.add(iter.next())
     return list
+
+public function repeat(int amount, LLItrClosure<int> itr)
+    for i = 0 to amount - 1
+        itr.run(i)

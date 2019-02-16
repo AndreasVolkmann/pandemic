@@ -11,7 +11,6 @@ public let system = new System()
 
 public class System
     Game game
-    let users = new LinkedList<User>()
     private LLIterator<User> userIterator
     private let turnOrder = asList(TurnStatus.Start, TurnStatus.Move, TurnStatus.Draw, TurnStatus.Infect, TurnStatus.End).staticItr()
     var actions = maxActions
@@ -20,11 +19,8 @@ public class System
         return userIterator.current.elem
 
     function start(LinkedList<player> players)
-        players
-            .map(p -> new User(p))
-            .forEach(u -> users.add(u))
-        game = new Game()..start()
-        userIterator = users.staticItr()
+        game = new Game(players)..start()
+        userIterator = game.users.staticItr()
         userIterator.next()
         next()
 
@@ -54,6 +50,7 @@ public class System
                 enableMovement(user)
                 actions--
             case TurnStatus.Draw
+                game.draw(user)
                 next()
             case TurnStatus.Infect
                 Log.info("Infection")
@@ -69,11 +66,15 @@ public class System
                 game.turnNumber++
                 next()
 
-    function move(unit destination)
-        getCurrentUser().move(destination)
+    function move(unit destination, boolean isCard)
+        getCurrentUser().move(destination, isCard)
         next()
 
     function treat()
+        let user = getCurrentUser()
+        let loc = user.currentLocation
+        Log.info("Treating infection in " + loc.name)
+        loc.treat()
         next()
 
     function cure()

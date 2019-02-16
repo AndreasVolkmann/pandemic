@@ -3,9 +3,10 @@ package GameTest
 import Game
 import CityFactory
 import City
+import LinkedList
 
 @Test public function conditions()
     createCities(false)
     City.cities.size().assertGreaterThan(0)
-    let g = new Game()
+    let g = new Game(new LinkedList<player>)
     g.check().assertFalse()
