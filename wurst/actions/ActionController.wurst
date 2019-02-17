@@ -1,0 +1,45 @@
+package ActionController
+
+import public BuffObjEditing
+import public Assets
+import ClosureEvents
+import System
+import CharterObjects
+import MoveObjects
+import ClosureTimers
+import ClosureForGroups
+import DialogMovementObjects
+import Dialog
+import TreatObjects
+
+let buffId = MOVE_BUFF_OBJ.abilId
+//let buffMap = new HashMap<unit, CallbackSingle>()
+init
+	EventListener.onPointCast(MOVE_SPELL_ID) (caster, tpos) ->
+		flashEffect(SPELL_EFFECT_PATH, caster.getPos())
+		system.move(caster, false)
+		doAfter(SPELL_EFFECT_DURATION) ->
+			forUnitsInRange(tpos, SPELL_RADIUS) u ->
+				if u.hasAbility(buffId)
+					caster.damageTarget(u, BONUS_DAMAGE)
+					flashEffect(BONUS_EFFECT_PATH, tpos)
+
+	EventListener.onPointCast(CHARTER_SPELL_ID) (caster, tpos) ->
+		system.move(caster, true)
+
+	EventListener.onPointCast(TREAT_SPELL_ID) (caster, tpos) ->
+		system.treat()
+
+	EventListener.onPointCast(DIALOG_MOVE_SPELL_ID) (caster, tpos) ->
+		let d = createDialog()
+			..setMessage("Where do you want to go?")
+		let user = system.getCurrentUser()
+		var hotkey = 0
+		user.currentLocation.connections.forEach() c->
+			d.addButton(c.name, hotkey)
+			hotkey++
+		user.getCityCards().forEach() card ->
+			d.addButton(card.getName(), hotkey)
+			hotkey++
+		d..addButton("Cancel", hotkey)
+			..display(user.p, true)

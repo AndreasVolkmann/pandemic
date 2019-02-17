@@ -4,12 +4,12 @@ import public BuffObjEditing
 import ChannelAbilityPreset
 import public Assets
 
-public let SPELL_ID = compiletime(ABIL_ID_GEN.next())
+public let DIALOG_MOVE_SPELL_ID = compiletime(ABIL_ID_GEN.next())
 
 @compiletime function genObj()
-    new ChannelAbilityPreset(SPELL_ID, 1, true)
+    new ChannelAbilityPreset(DIALOG_MOVE_SPELL_ID, 1, true)
     ..setName("Move")
-    ..presetTooltipNormal(lvl -> "Opens a dialog that let's you choose where to move to")
+    ..presetTooltipNormal(lvl -> "Move")
     ..presetTooltipNormalExtended(lvl -> "Opens a dialog that let's you choose where to move to")
     ..presetIcon(Icons.bTN3M1)
     ..presetButtonPosNormal(0, 0)

@@ -1,4 +1,4 @@
-package ConflagrationConstants
+package MoveConstants
 import public Assets
 
 @configurable public let BASE_DAMAGE = 50.

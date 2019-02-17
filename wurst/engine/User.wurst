@@ -21,7 +21,7 @@ public class User
         Log.debug(currentLocation.name)
         hero = GetUnitsOfPlayerAll(p).next() // later on choose a hero
         hero.setPos(currentLocation.getLocation())
-        hero.addAbility(SPELL_ID)
+        hero.addAbility(DIALOG_MOVE_SPELL_ID)
         hero.addAbility(TREAT_SPELL_ID)
 
 

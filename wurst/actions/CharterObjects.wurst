@@ -1,13 +1,13 @@
-package ShuttleObjects
+package CharterObjects
 
 import public BuffObjEditing
 import public Assets
 import ChannelAbilityPreset
 
-public let SHUTTLE_SPELL_ID = compiletime(ABIL_ID_GEN.next())
+public let CHARTER_SPELL_ID = compiletime(ABIL_ID_GEN.next())
 
 @compiletime function genObj()
-    new ChannelAbilityPreset(SHUTTLE_SPELL_ID, 1, true)
+    new ChannelAbilityPreset(CHARTER_SPELL_ID, 1, true)
     ..setName("Move (Card)")
     ..presetTooltipNormal(lvl -> "Move to this city by discarding the corresponding card from your hand")
     //..presetTooltipNormalExtended(lvl -> "Opens a dialog that let's you choose where to move to")

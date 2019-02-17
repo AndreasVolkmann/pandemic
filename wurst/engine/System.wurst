@@ -37,12 +37,12 @@ public class System
             return // end of game
         let status = getNextStatus()
         let user = getCurrentUser()
-        updateUser(user)
         updatePhase(status)
 
         switch status
             case TurnStatus.Start
                 Log.info("It is " + user.name + "'s turn")
+                updateUser(user)
                 updateTurn(game.turnNumber)
                 next()
             case TurnStatus.Move
