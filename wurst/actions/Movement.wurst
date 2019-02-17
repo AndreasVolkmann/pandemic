@@ -3,6 +3,7 @@ import User
 import City
 import ConflagrationObjects
 import ShuttleObjects
+import InternalUtil
 
 public function enableMovement(User user)
     user.currentLocation.connections.forEach() con ->
@@ -10,7 +11,7 @@ public function enableMovement(User user)
     user.getCityCards().forEach() card -> 
         card.city.enableMovement(SHUTTLE_SPELL_ID)
 
-function disableMovement(User user)
+public function disableMovement(User user)
     user.currentLocation.connections.forEach() cont -> 
         cont.disableMovement(SPELL_ID)
     user.getCityCards().forEach() card -> 
@@ -26,10 +27,6 @@ public function User.move(unit destination, boolean isCard)
     this.currentLocation = city
     this.hero.setPos(city.getLocation())
 
-function City.enableMovement(int id)
-    this.cityUnit.addAbility(id)
 
-function City.disableMovement(int id)
-    this.cityUnit.removeAbility(id)
 
 

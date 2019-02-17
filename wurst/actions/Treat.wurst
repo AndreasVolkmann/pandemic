@@ -7,6 +7,6 @@ import System
 
 init
     EventListener.onPointCast(TREAT_SPELL_ID) (caster, tpos) ->
-		system.treat()
+        system.treat()
 
 

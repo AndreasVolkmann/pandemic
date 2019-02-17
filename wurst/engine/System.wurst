@@ -59,6 +59,7 @@ public class System
                 next()
             case TurnStatus.End
                 Log.info("Turn has ended")
+                disableMovement(user)
                 if not userIterator.hasNext()
                     userIterator.reset()
                 userIterator.next()

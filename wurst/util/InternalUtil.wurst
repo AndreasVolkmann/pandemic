@@ -1,0 +1,8 @@
+package InternalUtil
+import City
+
+public function City.enableMovement(int id)
+    this.cityUnit.addAbility(id)
+
+public function City.disableMovement(int id)
+    this.cityUnit.removeAbility(id)

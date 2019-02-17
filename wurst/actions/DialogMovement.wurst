@@ -16,6 +16,9 @@ init
         user.currentLocation.connections.forEach() c->
             d.addButton(c.name, hotkey)
             hotkey++
+        user.getCityCards().forEach() card ->
+            d.addButton(card.getName(), hotkey)
+            hotkey++
         d..addButton("Cancel", hotkey)
             ..display(user.p, true)
         
